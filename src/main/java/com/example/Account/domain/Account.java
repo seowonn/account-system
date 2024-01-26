@@ -1,5 +1,6 @@
 package com.example.Account.domain;
 
+import com.example.Account.type.AccountStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
