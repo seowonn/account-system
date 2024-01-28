@@ -68,7 +68,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void createFristAccount() {
+    void createFirstAccount() {
         // given
         AccountUser accountUser = AccountUser.builder()
                 .id(15L)
