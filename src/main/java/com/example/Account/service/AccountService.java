@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.example.Account.type.AccountStatus.IN_USE;
@@ -40,7 +41,7 @@ public class AccountService {
 
         String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
                 .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 + "")
-                .orElse("1000000000");
+                .orElse(makeRandom10_AccountNumber() + "");
 
         Account account = accountRepository.save(
                 Account.builder()
@@ -53,6 +54,27 @@ public class AccountService {
         );
 
         return AccountDto.fromEntity(account);
+    }
+
+    public int makeRandom10_AccountNumber(){
+        Random rand = new Random();
+        int accountNumber;
+        int attempts = 0;
+        int MAX_ATTEMPTS = 100;
+        do {
+            accountNumber = 0;
+            for (int i = 0; i < 10; i++) {
+                accountNumber += rand.nextInt(10) * (int) Math.pow(10, i);
+            }
+            attempts++;
+
+            if (attempts > MAX_ATTEMPTS) {
+                throw new RuntimeException("계좌 번호 생성 에러");
+            }
+        } while (accountRepository.findByAccountNumber(accountNumber + "").isPresent()
+        || accountNumber < 0);
+
+        return accountNumber;
     }
 
     private void validateCreateAccount(AccountUser accountUser) {

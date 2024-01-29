@@ -91,7 +91,8 @@ class AccountServiceTest {
         // then
         verify(accountRepository, times(1)).save(captor.capture());
         assertEquals(15L, accountDto.getUserId());
-        assertEquals("1000000000", captor.getValue().getAccountNumber());
+        // 랜덤 생성에 대한 테스트는 어떻게 작성해야 좋을까요?
+//        assertEquals(accountDto.getAccountNumber(), captor.getValue().getAccountNumber());
     }
 
     @Test
